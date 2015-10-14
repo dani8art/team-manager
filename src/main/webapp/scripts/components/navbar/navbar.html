@@ -1,0 +1,64 @@
+	
+<div class="navbar-fixed">
+	<nav class="" role="navigation">
+	    <div class="nav-wrapper">
+	        <a class="brand-logo" href="#/" style="margin-left:15px;"><span>Team Manager</span></a>
+	        <ul class="right hide-on-med-and-down" style="margin-right:15px;"  ng-switch="isAuthenticated()">
+	            <!--  <li ui-sref-active="active">
+	             	<a ui-sref="home">
+	                 	<span class="glyphicon glyphicon-home"></span>
+	                   	<span class="hidden-sm">Home</span>
+	              	</a>
+	           	</li> -->
+	            <li ui-sref-active="active" ng-switch-when="true" >
+	               	<a class="dropdown-button" href="#!" data-activates="dropdown-entities">
+	               		Entities 
+	               		<!-- <i class="material-icons right">arrow_drop_down</i> -->
+	             	</a>
+	         		<ul id="dropdown-entities" class="dropdown-content">
+	                        <!-- JHipster will add entities to the menu here -->
+	              	</ul>
+	          	</li>
+	          	<!--  <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="settings" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-wrench"></span>
+	                            &#xA0;<span>Settings</span></a></li>
+	         	<li ui-sref-active="active" ng-switch-when="true"><a ui-sref="password" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-lock"></span>
+	                            &#xA0;<span>Password</span></a></li> -->
+	          	<li ui-sref-active="active" ng-switch-when="true">
+	          		<a href="" ng-click="logout()">Sign out</a>
+	          	</li>
+	            <li ui-sref-active="active" ng-switch-when="false">
+	            	<a ui-sref="login" >Sign in</a>
+	            </li>
+	           	<li ui-sref-active="active" ng-switch-when="false">
+	           		<a ui-sref="register" >Register</a>
+	           	</li>
+	               
+	                <!-- <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" class="dropdown pointer">
+	                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+	                        <span>
+	                            <span class="glyphicon glyphicon-tower"></span>
+	                            <span class="hidden-sm">Administration</span>
+	                            <b class="caret"></b>
+	                        </span>
+	                    </a>
+	                    <ul class="dropdown-menu">
+	                        <li ui-sref-active="active"><a ui-sref="user-management" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-user"></span>
+	                            &#xA0;<span>User management</span></a></li>
+	                        <li ui-sref-active="active"><a ui-sref="metrics" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-dashboard"></span>
+	                            &#xA0;<span>Metrics</span></a></li>
+	                        <li ui-sref-active="active"><a ui-sref="health" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-heart"></span>
+	                            &#xA0;<span>Health</span></a></li>
+	                        <li ui-sref-active="active"><a ui-sref="configuration" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-list-alt"></span>
+	                            &#xA0;<span>Configuration</span></a></li>
+	                        <li ui-sref-active="active"><a ui-sref="audits" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-bell"></span>
+	                            &#xA0;<span>Audits</span></a></li>
+	                        <li ui-sref-active="active"><a ui-sref="logs" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-tasks"></span>
+	                            &#xA0;<span>Logs</span></a></li>
+	                        <li ng-hide="inProduction" ui-sref-active="active"><a ui-sref="docs" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-book"></span>
+	                            &#xA0;<span>API</span></a></li>
+	                    </ul>
+	                </li> -->
+	      	</ul>
+	    </div>
+	</nav>
+</div>

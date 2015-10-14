@@ -1,0 +1,33 @@
+<div>
+	<div class="card-panel red lighten-3" ng-show="authenticationError">
+    	<strong>Failed to sign in!</strong> Please check your credentials and try again.
+    </div>
+    <div class="row card-panel center-align">
+        <div class="col s4 offset-s4">
+        	<div class="">
+	            <h3>Sign in</h3>
+	            <form class="form" role="form" ng-submit="login($event)">
+	           		<div class="row">
+		                <div class="input-field col s12">
+		                    <input type="text" placeholder="Username"  id="username" ng-model="username">
+		                    <label for="username">Login</label>
+		                </div>
+		                <div class="input-field col s12">
+		                    <input type="password"  placeholder="Password"  id="password"  ng-model="password">
+		                    <label for="password">Password</label>
+		                </div>
+		                <div class="input-field col s12">
+		                	<button type="submit" class="btn btn-primary">Sign in</button>
+		                </div>
+		          	</div>
+	            </form>
+	       	</div>
+        </div>
+    </div><!--  
+    <div class="card-panel teal lighten-4">
+     	<a class="alert-link" href="#/reset/request">Did you forget your password?</a>
+   	</div>
+ 	<div class="card-panel green lighten-3">
+       	You don't have an account yet? <a class="alert-link" href="#/register">Register a new account</a>
+  	</div>-->
+</div>
