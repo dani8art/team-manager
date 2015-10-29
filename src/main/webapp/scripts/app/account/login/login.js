@@ -8,7 +8,7 @@ angular.module('teammanagerApp')
                 url: '/login',
                 data: {
                     authorities: [], 
-                    pageTitle: 'Sign in'
+                    pageTitle: 'Team Manager | Inicio de sesión'
                 },
                 views: {
                     'content@': {

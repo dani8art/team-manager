@@ -1,0 +1,104 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "entrenamiento",
+            "otherEntityName": "entrenamiento",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "user"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "manytomany",
+            "otherEntityName": "manytomany",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "manytomanynoowner",
+            "otherEntityName": "manytomanynoowner",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "user"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "manytoone",
+            "otherEntityName": "manytoone",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 5,
+            "relationshipName": "onetoone",
+            "otherEntityName": "onetoone",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "user"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "username",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "password",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "email",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "pattern"
+            ],
+            "fieldValidateRulesPattern": ".pattner",
+            "fieldValidateRulesPatternJava": ".pattner"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "edad",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "fechaNacimiento",
+            "fieldType": "DateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "role",
+            "fieldType": "Roles",
+            "fieldValues": "jugador,entrenador,padre"
+        },
+        {
+            "fieldId": 8,
+            "fieldName": "posision",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20151018222139",
+    "dto": "no",
+    "pagination": "no"
+}

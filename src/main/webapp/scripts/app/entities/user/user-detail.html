@@ -1,0 +1,105 @@
+
+<div>
+    <h2><span>User</span> {{user.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Username</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.username}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Password</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.password}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Email</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.email}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Edad</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.edad}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>FechaNacimiento</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.fechaNacimiento}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Description</span>
+                </td>
+                <td>
+                    <img data-ng-src="{{'data:' + user.descriptionContentType + ';base64,' + user.description}}" style="max-width: 100%;" ng-if="user.description"/>
+                    <div>{{user.descriptionContentType}}  {{byteSize(user.description)}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Role</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'teammanagerApp.Roles.' + user.role}}">{{user.role}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Posision</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{user.posision}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>manytomany</span>
+                </td>
+                <td>
+                    <span ng-repeat="manytomany in user.manytomanys">
+                        <a class="form-control-static" ui-sref="manytomany.detail({id: {{manytomany.id}}})">{{manytomany.id}}</a>{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>manytoone</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="manytoone.detail({id:user.manytoone.id})">{{user.manytoone.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

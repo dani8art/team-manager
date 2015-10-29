@@ -1,86 +1,96 @@
 package com.darteaga.teammanager.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.darteaga.teammanager.domain.util.CustomDateTimeDeserializer;
+import com.darteaga.teammanager.domain.util.CustomDateTimeSerializer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Email;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import org.hibernate.annotations.Type;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
-import org.joda.time.DateTime;
+import com.darteaga.teammanager.domain.enumeration.Roles;
 
 /**
- * A user.
+ * A User.
  */
 @Entity
-@Table(name = "jhi_user")
+@Table(name = "user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
-    private String login;
 
-    @JsonIgnore
-    @NotNull
-    @Size(min = 60, max = 60) 
-    @Column(length = 60)
+    @NotNull        
+    @Column(name = "username", nullable = false)
+    private String username;
+    
+    @Column(name = "password")
     private String password;
 
-    @Size(max = 50)
-    @Column(name = "first_name", length = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    @Column(name = "last_name", length = 50)
-    private String lastName;
-
-    @Email
-    @Size(max = 100)
-    @Column(length = 100, unique = true)
+    @Pattern(regexp = ".pattner")        
+    @Column(name = "email")
     private String email;
 
-    @Column(nullable = false)
-    private boolean activated = false;
+    @Min(value = 0)        
+    @Column(name = "edad")
+    private Integer edad;
 
-    @Size(min = 2, max = 5)
-    @Column(name = "lang_key", length = 5)
-    private String langKey;
-
-    @Size(max = 20)
-    @Column(name = "activation_key", length = 20)
-    @JsonIgnore
-    private String activationKey;
-
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
-    private String resetKey;
-
+    @NotNull        
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(name = "reset_date", nullable = true)
-    private DateTime resetDate = null;
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private DateTime fechaNacimiento;
+    
+    @Lob
+    @Column(name = "description")
+    private byte[] description;
 
+    @Column(name = "description_content_type", nullable = false)
+    private String descriptionContentType;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Roles role;
+    
+    @Column(name = "posision")
+    private String posision;
+
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "jhi_user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Entrenamiento> entrenamientos = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "user_manytomany",
+               joinColumns = @JoinColumn(name="users_id", referencedColumnName="ID"),
+               inverseJoinColumns = @JoinColumn(name="manytomanys_id", referencedColumnName="ID"))
+    private Set<Manytomany> manytomanys = new HashSet<>();
+
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Manytomanynoowner> manytomanynoowners = new HashSet<>();
+
+    @ManyToOne
+    private Manytoone manytoone;
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private Onetoone onetoone;
 
     public Long getId() {
         return id;
@@ -90,12 +100,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -106,22 +116,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -130,52 +124,92 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.email = email;
     }
 
-    public boolean getActivated() {
-        return activated;
+    public Integer getEdad() {
+        return edad;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void setEdad(Integer edad) {
+        this.edad = edad;
     }
 
-    public String getActivationKey() {
-        return activationKey;
+    public DateTime getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
+    public void setFechaNacimiento(DateTime fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getResetKey() {
-        return resetKey;
+    public byte[] getDescription() {
+        return description;
     }
 
-    public void setResetKey(String resetKey) {
-        this.resetKey = resetKey;
+    public void setDescription(byte[] description) {
+        this.description = description;
     }
 
-    public DateTime getResetDate() {
-       return resetDate;
+    public String getDescriptionContentType() {
+        return descriptionContentType;
     }
 
-    public void setResetDate(DateTime resetDate) {
-       this.resetDate = resetDate;
+    public void setDescriptionContentType(String descriptionContentType) {
+        this.descriptionContentType = descriptionContentType;
     }
 
-    public String getLangKey() {
-        return langKey;
+    public Roles getRole() {
+        return role;
     }
 
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
+    public void setRole(Roles role) {
+        this.role = role;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public String getPosision() {
+        return posision;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setPosision(String posision) {
+        this.posision = posision;
+    }
+
+    public Set<Entrenamiento> getEntrenamientos() {
+        return entrenamientos;
+    }
+
+    public void setEntrenamientos(Set<Entrenamiento> entrenamientos) {
+        this.entrenamientos = entrenamientos;
+    }
+
+    public Set<Manytomany> getManytomanys() {
+        return manytomanys;
+    }
+
+    public void setManytomanys(Set<Manytomany> manytomanys) {
+        this.manytomanys = manytomanys;
+    }
+
+    public Set<Manytomanynoowner> getManytomanynoowners() {
+        return manytomanynoowners;
+    }
+
+    public void setManytomanynoowners(Set<Manytomanynoowner> manytomanynoowners) {
+        this.manytomanynoowners = manytomanynoowners;
+    }
+
+    public Manytoone getManytoone() {
+        return manytoone;
+    }
+
+    public void setManytoone(Manytoone manytoone) {
+        this.manytoone = manytoone;
+    }
+
+    public Onetoone getOnetoone() {
+        return onetoone;
+    }
+
+    public void setOnetoone(Onetoone onetoone) {
+        this.onetoone = onetoone;
     }
 
     @Override
@@ -189,28 +223,29 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
         User user = (User) o;
 
-        if (!login.equals(user.login)) {
-            return false;
-        }
+        if ( ! Objects.equals(id, user.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return login.hashCode();
+        return Objects.hashCode(id);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", activated='" + activated + '\'' +
-                ", langKey='" + langKey + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                "}";
+                "id=" + id +
+                ", username='" + username + "'" +
+                ", password='" + password + "'" +
+                ", email='" + email + "'" +
+                ", edad='" + edad + "'" +
+                ", fechaNacimiento='" + fechaNacimiento + "'" +
+                ", description='" + description + "'" +
+                ", descriptionContentType='" + descriptionContentType + "'" +
+                ", role='" + role + "'" +
+                ", posision='" + posision + "'" +
+                '}';
     }
 }

@@ -1,30 +1,20 @@
 package com.darteaga.teammanager.repository;
 
 import com.darteaga.teammanager.domain.User;
-
-import org.joda.time.DateTime;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User,Long> {
 
-    Optional<User> findOneByActivationKey(String activationKey);
+    @Query("select distinct user from User user left join fetch user.manytomanys")
+    List<User> findAllWithEagerRelationships();
 
-    List<User> findAllByActivatedIsFalseAndCreatedDateBefore(DateTime dateTime);
-
-    Optional<User> findOneByResetKey(String resetKey);
-
-    Optional<User> findOneByEmail(String email);
-
-    Optional<User> findOneByLogin(String login);
-
-    @Override
-    void delete(User t);
+    @Query("select user from User user left join fetch user.manytomanys where user.id =:id")
+    User findOneWithEagerRelationships(@Param("id") Long id);
 
 }

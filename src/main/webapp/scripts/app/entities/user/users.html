@@ -1,0 +1,99 @@
+<div>
+    <h2>Users</h2>
+    <jh-alert></jh-alert>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" ui-sref="user.new">
+                    <span class="glyphicon glyphicon-flash"></span> <span>Create a new User</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUserConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(user.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this User?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Email</th>
+                    <th>Edad</th>
+                    <th>FechaNacimiento</th>
+                    <th>Description</th>
+                    <th>Role</th>
+                    <th>Posision</th>
+                    <th>manytomany</th>
+                    <th>manytoone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users track by user.id">
+                    <td><a ui-sref="user.detail({id:user.id})">{{user.id}}</a></td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.password}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.edad}}</td>
+                    <td>{{user.fechaNacimiento}}</td>
+                    <td>
+                        <img data-ng-src="{{'data:' + user.descriptionContentType + ';base64,' + user.description}}" style="max-height: 30px;" ng-if="user.description"/> {{user.descriptionContentType}} {{byteSize(user.description)}}
+                    </td>
+                    <td translate="{{'teammanagerApp.Roles.' + user.role}}">{{user.role}}</td>
+                    <td>{{user.posision}}</td>
+                    <td>
+                        <span ng-repeat="manytomany in user.manytomanys">
+                            <a class="form-control-static" ui-sref="manytomany.detail({id: {{manytomany.id}}})">{{manytomany.id}}</a>{{$last ? '' : ', '}}
+                        <span>
+                    </td>
+                    <td>
+                        <a ui-sref="manytoone.detail({id:user.manytoone.id})">{{user.manytoone.id}}</a>
+                    </td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="user.detail({id:user.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span> View</span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="user.edit({id:user.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(user.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
